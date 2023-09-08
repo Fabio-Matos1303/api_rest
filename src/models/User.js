@@ -18,11 +18,11 @@ export default class User extends Model {
         type: Sequelize.STRING,
         defaultValue: '',
         unique: {
-          msg: 'Email já existe',
+          msg: 'E-mail já existe',
         },
         validate: {
           isEmail: {
-            msg: 'Email inválido',
+            msg: 'E-mail inválido',
           }
         }
       },
@@ -44,7 +44,7 @@ export default class User extends Model {
       sequelize,
     });
     this.addHook('beforeSave', async (user) => {
-      user.password_hash = await bcryptjs.hash(user.password, 8)
+      if (user.password) user.password_hash = await bcryptjs.hash(user.password, 8)
     })
     return this;
   }
