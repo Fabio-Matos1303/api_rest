@@ -1,11 +1,11 @@
 import multer from 'multer';
 import { extname, resolve } from 'path';
 
-const aleatorio = Math.floor(Math.random() * 10000 + 10000);
+const aleatorio = () => Math.floor(Math.random() * 10000 + 10000);
 
 export default {
   fileFilter: (req, file, cb) => {
-    if (file.mimetype != 'image/png' && file.mimetype != 'image/jpeg') cb(new multer.MulterError('Arquivo inválido. Insira JPG ou JPEG'))
+    if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpeg') return cb(new multer.MulterError('Arquivo inválido. Insira JPG ou JPEG'))
 
     return cb(null, true)
   },
@@ -14,8 +14,8 @@ export default {
     destination: (req, file, cb) => {
       cb(null, resolve(__dirname, '..', '..', 'uploads'))
     },
-    filenamne: (req, file, cb) => {
-      cb(null, `${Date.now()}_${aleatorio()}${extname(file.originalName)}`)
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}_${aleatorio()}${extname(file.originalname)}`)
     }
   })
 }
